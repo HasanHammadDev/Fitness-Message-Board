@@ -3,6 +3,15 @@ body {
     padding: 0;
 }
 
+.header-img{
+    width: 100%;
+    max-width: 90px;
+    max-height: 70px;
+    height: 100%;
+    border-radius: 50%;
+    margin: 1px;
+}
+
 .add-button{
     height: 50px;
     margin: 6px;
@@ -15,7 +24,12 @@ body {
 }
 
 .message-form{
-    width: '100%';
+    width: 100%;
     max-width: 600px;
     border-radius: 8px;
+}
+
+.message-card{
+    width: 100%;
+    max-width: 600px;
 }

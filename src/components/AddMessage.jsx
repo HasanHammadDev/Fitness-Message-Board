@@ -1,10 +1,11 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { addMessage } from '../MessageApi';
 
-function AddMessage() {
+function AddMessage({ isVisible }) {
   return (
-    <div className="form-wrapper d-flex justify-content-center mt-5">
+    <div className={`form-wrapper d-flex justify-content-center mt-2 mb-3 ${isVisible ? '' : 'd-none'}`}>
       <Form className="message-form border d-flex flex-column align-items-start p-4">
         <Form.Group className="mb-3" controlId="formBasicUsername">
           <Form.Label className="fw-bold">Username</Form.Label>
