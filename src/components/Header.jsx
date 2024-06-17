@@ -1,17 +1,20 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
-import AddMessage from './AddMessage';
 
-function Header({ toggleVisibility }) {
+function Header() {
+    const addRoute = '/add';
+    const homeRoute = '/';
+
     return (
       <div className="d-flex justify-content-center">
-        <img src='images/dumbbell.jpg' className='header-img' alt='Header image'/>
+        <Link to={homeRoute}><img src='/images/icon.jpg' className='header-img' alt='Header image'/></Link>
+
         <h1 className="board-header m-2">Message Board</h1>
-        <Button onClick={toggleVisibility} className='add-button py-0'>
+        <Link to={addRoute} className='add-button'>
           Add Message
-        </Button>
+        </Link>
       </div>
     );
   }

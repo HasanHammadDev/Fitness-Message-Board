@@ -5,9 +5,7 @@ import { Link } from "react-router-dom";
 function Message(props) {
     const message = props.value;
     const deleteMessage = props.delete;
-    // const editRoute = `/edit/${message._id}`;
-
-  console.log(message)
+    const editRoute = `/edit/${message._id}`;
 
   return (
     <div className="m-2 d-flex justify-content-center">
@@ -15,7 +13,7 @@ function Message(props) {
         <Card.Body>
           <CloseButton className="float-end" onClick={() => deleteMessage(message._id)}/>
           <Card.Title>{message.title}</Card.Title>
-          {/* <Link to={editRoute} className="float-end">&#x270E;</Link> */}
+          <Link to={editRoute} className="float-end">Edit</Link>
 
           <Card.Text>
             {message.message}

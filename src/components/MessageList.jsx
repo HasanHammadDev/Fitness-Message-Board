@@ -7,7 +7,6 @@ function MessageList() {
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-   console.log(messages)
 
     function deleteFromList(messageId) {
        // Delete message from database
