@@ -6,7 +6,8 @@ import { getMessage, editMessage } from "../MessageApi";
 function EditMessage() {
    const { messageId } = useParams();
    const navigate = useNavigate();
-   const [inputs, setInputs] = useState({ username: "", messageText: "" });
+   const [inputs, setInputs] = useState({ username: "", title: "", messageText: "" });
+
 
    function handleChange(name, value) {
       setInputs(values => ({ ...values, [name]: value }));
@@ -17,7 +18,8 @@ function EditMessage() {
 
       const messagePart = {
          username: inputs.username,
-         text: inputs.messageText
+         title: inputs.title,
+         message: inputs.messageText
       };
 
       await editMessage(messageId, messagePart);
@@ -32,8 +34,9 @@ function EditMessage() {
       async function loadMessage() {
          const message = await getMessage(messageId);
          setInputs({ 
-            username: message.username, 
-            messageText: message.text 
+            username: message.username,
+            title: message.title, 
+            messageText: message.message 
          });
       }
 
@@ -48,6 +51,14 @@ function EditMessage() {
                value={inputs.username}
                onChange={(e) => handleChange("username", e.target.value)} />
          </Form.Group>
+
+         <Form.Group className="mb-3" controlId="title">
+            <Form.Label>Title</Form.Label>
+            <Form.Control type="text"
+               value={inputs.title}
+               onChange={(e) => handleChange("title", e.target.value)} />
+         </Form.Group>
+
          <Form.Group className="mb-3" controlId="messageText">
             <Form.Label>Message</Form.Label>
             <Form.Control as="textarea" rows={3}
