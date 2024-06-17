@@ -55,7 +55,7 @@ function AddMessage() {
         </Form.Group>
 
         <Form.Group className="mb-3 w-100" controlId="formBasicPost">
-          <Form.Label className="fw-bold">Share your thoughts</Form.Label>
+          <Form.Label className="fw-bold">Share your thoughts*</Form.Label>
           <Form.Control
             as="textarea"
             rows={5}
@@ -79,10 +79,10 @@ function AddMessage() {
             <Form.Control type="file" accept="video/*" />
           </Form.Group>
         </div>
-        {/* 
+        
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
           <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group> */}
+        </Form.Group>
         <div className="d-flex w-100 justify-content-start">
           <Button
             onClick={handleSubmit}
