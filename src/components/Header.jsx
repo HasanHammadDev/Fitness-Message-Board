@@ -8,11 +8,10 @@ function Header() {
     const homeRoute = '/';
 
     return (
-      <div className="d-flex justify-content-center">
-        <Link to={homeRoute}><img src='/images/icon.jpg' className='header-img' alt='Header image'/></Link>
-
+      <div className="d-flex justify-content-center align-items-center">
+        <Link to={homeRoute}><img src='/images/icon.jpg' className='header-img m-2' alt='Header image'/></Link>
         <h1 className="board-header m-2">Message Board</h1>
-        <Link to={addRoute} className='add-button'>
+        <Link to={addRoute} className='add-button m-2'>
           Add Message
         </Link>
       </div>

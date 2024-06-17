@@ -13,7 +13,7 @@ function Message(props) {
         <Card.Body>
           <CloseButton className="float-end" onClick={() => deleteMessage(message._id)}/>
           <Card.Title>{message.title}</Card.Title>
-          <Link to={editRoute} className="float-end">Edit</Link>
+          <Link to={editRoute} className="float-end fw-bold">Edit&#x270E;</Link>
 
           <Card.Text>
             {message.message}
@@ -31,6 +31,7 @@ function Message(props) {
         </Card.Body>
         <Card.Footer className="text-muted">
           <ReactTimeAgo date={new Date(message.timestamp)} locale='en-US'/>
+          <Card.Text className="float-end">By {message.username}</Card.Text>
         </Card.Footer>
       </Card>
     </div>

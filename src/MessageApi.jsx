@@ -1,5 +1,6 @@
 const apiEndpoint = "http://localhost:3000/messages";
 
+//Load existing messages
 async function getMessages() {
    try {
       const response = await fetch(apiEndpoint);
@@ -14,6 +15,7 @@ async function getMessages() {
    }
 }
 
+//Get message selected for editing
 async function getMessage(messageId) {
    try {
       const response = await fetch(`${apiEndpoint}/${messageId}`);
@@ -28,6 +30,8 @@ async function getMessage(messageId) {
    }
 }
 
+
+//Post a message
 async function addMessage(message) {
    try {
       const response = await fetch(apiEndpoint, {
@@ -47,6 +51,7 @@ async function addMessage(message) {
       return null;
    }
 }
+
 
 async function editMessage(messageId, messagePart) {
    try {
