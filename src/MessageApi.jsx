@@ -1,9 +1,15 @@
 const apiEndpoint = "http://localhost:3000/messages";
 
 //Load existing messages
-async function getMessages() {
+async function getMessages(categories) {
    try {
-      const response = await fetch(apiEndpoint);
+      let response;
+      if(categories && categories.length > 0) {
+         response = await fetch(`${apiEndpoint}?categories=${categories}`);
+      } else {
+         response = await fetch(`${apiEndpoint}`);
+      }
+
       if (!response.ok) {
          console.error('Failed to fetch messages:', response);
          return null;
@@ -32,23 +38,21 @@ async function getMessage(messageId) {
 
 
 //Post a message
-async function addMessage(message) {
+async function addMessage(formData) {
    try {
-      const response = await fetch(apiEndpoint, {
-         method: "POST",
-         headers: {
-            "Content-Type": "application/json",
-         },
-         body: JSON.stringify(message),
-      });
-      if (!response.ok) {
-         console.error('Failed to add message:', response);
-         return null;
-      }
-      return await response.json();
+       const response = await fetch(apiEndpoint, {
+           method: "POST",
+           body: formData,
+       });
+
+       if (!response.ok) {
+           console.error('Failed to add message:', response);
+           return null;
+       }
+       return await response.json();
    } catch (error) {
-      console.error('Error adding message:', error);
-      return null;
+       console.error('Error adding message:', error);
+       return null;
    }
 }
 

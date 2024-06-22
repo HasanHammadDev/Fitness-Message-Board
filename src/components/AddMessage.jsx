@@ -7,22 +7,38 @@ import { addMessage } from "../MessageApi";
 
 function AddMessage() {
   const navigate = useNavigate();
-  const [inputs, setInputs] = useState({ username: "", title: "", post: "" });
+  const [inputs, setInputs] = useState({
+    username: "",
+    title: "",
+    post: "",
+    category: "",
+    image: null,
+  });
 
   function handleChange(name, value) {
-    setInputs((values) => ({ ...values, [name]: value }));
+    if (name === "image") {
+      setInputs((values) => ({ ...values, [name]: value.target.files[0] }));
+    } else {
+      setInputs((values) => ({ ...values, [name]: value }));
+    }
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    
-    const message = {
-      username: inputs.username,
-      title: inputs.title,
-      message: inputs.post,
-    };
+  
+    const formData = new FormData();
+    formData.append("title", inputs.title);
+    formData.append("message", inputs.post);
+    formData.append("category", inputs.category);
+    if (inputs.image) {
+      formData.append("image", inputs.image);
+    }
 
-    await addMessage(message);
+    if(inputs.username) {
+      formData.append("username", inputs.username);
+    }
+  
+    await addMessage(formData);
     goBack();
   }
 
@@ -36,6 +52,7 @@ function AddMessage() {
         onSubmit={handleSubmit}
         className="message-form border d-flex flex-column align-items-start p-4"
       >
+        <p className="fw-bold">* Indicates Required Fields</p>
         <Form.Group className="mb-3" controlId="formBasicUsername">
           <Form.Label className="fw-bold">Username</Form.Label>
           <Form.Control
@@ -45,17 +62,34 @@ function AddMessage() {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicTitle">
-          <Form.Label className="fw-bold">Title</Form.Label>
-          <Form.Control
-            onChange={(e) => handleChange("title", e.target.value)}
-            type="text"
-            placeholder="Enter Title"
-          />
-        </Form.Group>
+        <div className="d-flex">
+          <Form.Group className="mb-3" controlId="formBasicTitle">
+            <Form.Label className="fw-bold">Title *</Form.Label>
+            <Form.Control
+              onChange={(e) => handleChange("title", e.target.value)}
+              type="text"
+              placeholder="Enter Title"
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3 mx-3" controlId="formBasicCategory">
+            <Form.Label className="fw-bold">Category *</Form.Label>
+            <Form.Control
+              onChange={(e) => handleChange("category", e.target.value)}
+              as="select"
+              placeholder="Enter Category"
+            >
+              <option value="" disabled selected>Select a category</option>
+              <option value="Push">Push</option>
+              <option value="Pull">Pull</option>
+              <option value="Legs">Legs</option>
+              <option value="Nutrition">Nutrition</option>
+            </Form.Control>
+          </Form.Group>
+        </div>
 
         <Form.Group className="mb-3 w-100" controlId="formBasicPost">
-          <Form.Label className="fw-bold">Share your thoughts*</Form.Label>
+          <Form.Label className="fw-bold">Share Your Workout! *</Form.Label>
           <Form.Control
             as="textarea"
             rows={5}
@@ -67,22 +101,14 @@ function AddMessage() {
 
         <div className="d-flex w-100 justify-content-between">
           <Form.Group
-            className="mb-3 me-3 flex-grow-1"
+            className="mb-3 me-3"
             controlId="formBasicImage"
           >
             <Form.Label className="fw-bold">Picture</Form.Label>
-            <Form.Control type="file" accept="image/*" />
+            <Form.Control type="file" accept="image/*" onChange={(e) => handleChange("image", e)} />
           </Form.Group>
 
-          <Form.Group className="mb-3 flex-grow-1" controlId="formBasicVideo">
-            <Form.Label className="fw-bold">Video</Form.Label>
-            <Form.Control type="file" accept="video/*" />
-          </Form.Group>
         </div>
-        
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
         <div className="d-flex w-100 justify-content-start">
           <Button
             onClick={handleSubmit}

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const messageSchema = new mongoose.Schema({
    username: {
       type: String,
+      default: 'Anonymous',
       required: true,
    },
    message: {
@@ -17,6 +18,14 @@ const messageSchema = new mongoose.Schema({
    title: {
       type: String,
       required: true,
+   },
+   category: {
+      type: String,
+      required: true,
+   },
+   imageUrl: {
+      type: String,
+      required: false,
    },
 }, { collection: 'Messages' });
 
