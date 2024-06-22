@@ -1,37 +1,32 @@
 import { Card, CloseButton } from "react-bootstrap";
 import ReactTimeAgo from "react-time-ago";
 import { Link } from "react-router-dom";
+import { useTheme } from '../context/ThemeContext';
 
 function Message(props) {
     const message = props.value;
     const deleteMessage = props.delete;
     const editRoute = `/edit/${message._id}`;
+    const { theme } = useTheme();
 
   return (
-    <div className="m-2 d-flex justify-content-center">
+    <div className={`${theme} m-3 d-flex justify-content-center`}>
       <Card className="message-card mb-3">
         <Card.Body>
           <CloseButton className="float-end" onClick={() => deleteMessage(message._id)}/>
           <Card.Title>{message.title}</Card.Title>
-          <Link to={editRoute} className="float-end fw-bold">Edit&#x270E;</Link>
+          <Link to={editRoute} className="edit-btn float-end fw-bold">Edit&#x270E;</Link>
 
           <Card.Text>
             {message.message}
           </Card.Text>
 
-          {/* {mediaType === 'image' ? (
-          <Card.Img variant="top" src={mediaUrl} alt="Card media" />
-        ) : (
-          <video className="card-img-top" controls>
-            <source src={mediaUrl} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        )} */}
+          {message.imageUrl ? <Card.Img className="card-image" src={message.imageUrl} alt="Card image" /> : <></>}
 
         </Card.Body>
         <Card.Footer className="text-muted">
-          <ReactTimeAgo date={new Date(message.timestamp)} locale='en-US'/>
-          <Card.Text className="float-end">By {message.username}</Card.Text>
+          <ReactTimeAgo className="time-posted" date={new Date(message.timestamp)} locale='en-US'/>
+          <Card.Text className="message-category float-end"><b>{message.category} {message.category === "Nutrition" ? "" : "Workout"}</b> By {message.username}</Card.Text>
         </Card.Footer>
       </Card>
     </div>
