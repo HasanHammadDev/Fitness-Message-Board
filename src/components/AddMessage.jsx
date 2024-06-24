@@ -89,12 +89,12 @@ function AddMessage() {
         </div>
 
         <Form.Group className="mb-3 w-100" controlId="formBasicPost">
-          <Form.Label className="fw-bold">Share Your Workout! *</Form.Label>
+          <Form.Label className="fw-bold">Description *</Form.Label>
           <Form.Control
             as="textarea"
             rows={5}
             className="message-textarea"
-            placeholder="Enter your post here"
+            placeholder="Enter Your Description Here"
             onChange={(e) => handleChange("post", e.target.value)}
           />
         </Form.Group>
