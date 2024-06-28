@@ -7,6 +7,9 @@ import { addMessage } from "../MessageApi";
 
 function AddMessage() {
   const navigate = useNavigate();
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
   const [inputs, setInputs] = useState({
     username: "",
     title: "",
@@ -38,8 +41,16 @@ function AddMessage() {
       formData.append("username", inputs.username);
     }
   
-    await addMessage(formData);
-    goBack();
+    const postRequest = await addMessage(formData);
+    if (inputs.title === ''|| inputs.category === ''|| inputs.post === '') {
+      setError(true)
+      setErrorMsg('Please fill all the required fields.')
+    } else if (postRequest.error){
+      setError(true)
+      setErrorMsg('There was an error with uploading your post. Please try again later.')
+    } else {
+      goBack();
+    }
   }
 
   function goBack() {
@@ -128,6 +139,7 @@ function AddMessage() {
             Cancel
           </Button>
         </div>
+        {error ? <h3 className="mt-1">{errorMsg}</h3> : <></>}
       </Form>
     </div>
   );

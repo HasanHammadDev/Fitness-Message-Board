@@ -12,12 +12,11 @@ async function getMessages(categories) {
 
       if (!response.ok) {
          console.error('Failed to fetch messages:', response);
-         return null;
       }
       return await response.json();
    } catch (error) {
       console.error('Error fetching messages:', error);
-      return null;
+      return {error};
    }
 }
 
@@ -27,12 +26,11 @@ async function getMessage(messageId) {
       const response = await fetch(`${apiEndpoint}/${messageId}`);
       if (!response.ok) {
          console.error(`Failed to fetch message ${messageId}:`, response);
-         return null;
       }
       return await response.json();
    } catch (error) {
       console.error(`Error fetching message ${messageId}:`, error);
-      return null;
+      return {error};
    }
 }
 
@@ -47,12 +45,11 @@ async function addMessage(formData) {
 
        if (!response.ok) {
            console.error('Failed to add message:', response);
-           return null;
        }
        return await response.json();
    } catch (error) {
        console.error('Error adding message:', error);
-       return null;
+       return {error};
    }
 }
 
@@ -68,12 +65,11 @@ async function editMessage(messageId, messagePart) {
       });
       if (!response.ok) {
          console.error(`Failed to edit message ${messageId}:`, response);
-         return null;
       }
       return await response.json();
    } catch (error) {
       console.error(`Error editing message ${messageId}:`, error);
-      return null;
+      return {error};
    }
 }
 
@@ -84,12 +80,11 @@ async function deleteMessage(messageId) {
       });
       if (!response.ok) {
          console.error(`Failed to delete message ${messageId}:`, response);
-         return null;
       }
       return await response.json();
    } catch (error) {
       console.error(`Error deleting message ${messageId}:`, error);
-      return null;
+      return {error};
    }
 }
 

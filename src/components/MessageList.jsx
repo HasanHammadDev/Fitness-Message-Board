@@ -6,6 +6,7 @@ import { getMessages, deleteMessage } from "../MessageApi";
 
 function MessageList() {
   const [messages, setMessages] = useState([]);
+  const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   function deleteFromList(messageId) {
@@ -21,8 +22,15 @@ function MessageList() {
   useEffect(() => {
     async function getAllMessages() {
       const messages = await getMessages();
-      setMessages(messages);
-      setIsLoading(false);
+      console.log(messages.error)
+      if(messages.error) {
+        setError(true)
+        setIsLoading(false)
+      } else {
+        setMessages(messages);
+        setIsLoading(false);
+    }
+
     }
 
     getAllMessages();
@@ -30,34 +38,36 @@ function MessageList() {
 
   return (
     <>
-      {isLoading ? (
-        <div className="d-flex justify-content-center align-items-center">
-          <Spinner
-            className="d-flex justify-content-center align-items-center"
-            animation="border"
-            role="status"
-          >
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
-      ) : (
-        <>
+       {isLoading ? (
           <div className="d-flex justify-content-center align-items-center">
-            <Link className="beacon" to="/filtered">
-              <Button className="filter-button">Filter &#x25bc;</Button>
-            </Link>
+             <Spinner />
           </div>
-          {messages.map((message) => (
-            <Message
-              key={message._id}
-              value={message}
-              delete={deleteFromList}
-            />
-          ))}
-        </>
-      )}
+       ) : (
+          <>
+             {error ? (
+                <div className="d-flex align-items-center justify-content-center">
+                   <h1 className="error-heading">There was an error fetching messages.</h1>
+                </div>
+             ) : (
+                <>
+                   <div className="d-flex justify-content-center align-items-center">
+                      <Link className="beacon" to="/filtered">
+                         <Button className="filter-button">Filter &#x25bc;</Button>
+                      </Link>
+                   </div>
+                   {messages.map((message) => (
+                      <Message
+                         key={message._id}
+                         value={message}
+                         delete={deleteFromList}
+                      />
+                   ))}
+                </>
+             )}
+          </>
+       )}
     </>
-  );
+ );
 }
 
 export default MessageList;

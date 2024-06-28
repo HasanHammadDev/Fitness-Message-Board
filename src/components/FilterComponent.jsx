@@ -8,6 +8,7 @@ function FilterComponent() {
   const filterParam = useLocation();
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [fetchedMessages, setFetchedMessages] = useState([]);
+  const [error, setError] = useState(false);
   const categories = ["Push", "Pull", "Legs", "Nutrition"];
 
   const handleSelect = (category) => {
@@ -32,7 +33,11 @@ function FilterComponent() {
   useEffect(() => {
     async function getAllMessages() {
       const messages = await getMessages();
-      setFetchedMessages(messages);
+      if(messages.error) {
+        setError(true)
+      } else {
+        setFetchedMessages(messages);
+      }
     }
     getAllMessages();
   }, []);
@@ -40,7 +45,6 @@ function FilterComponent() {
   return (
     <>
       <div className="d-flex justify-content-center align-items-center">
-        {/* {filterParam === "/filtered" ? () : <></>} */}
         {filterParam.pathname === "/filtered" ? (
           categories.map((category, index) => (
             <Button
@@ -76,7 +80,8 @@ function FilterComponent() {
         </div>
 
       </div>
-      <FilteredList filteredMessages={fetchedMessages} />
+       
+       {error ? <h1 className="error-heading">There was an error fetching messages.</h1> : <FilteredList filteredMessages={fetchedMessages} />}
     </>
   );
 }

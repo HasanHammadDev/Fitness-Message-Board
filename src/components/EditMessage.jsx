@@ -4,75 +4,93 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getMessage, editMessage } from "../MessageApi";
 
 function EditMessage() {
-   const { messageId } = useParams();
-   const navigate = useNavigate();
-   const [inputs, setInputs] = useState({ username: "", title: "", messageText: "" });
+  const { messageId } = useParams();
+  const navigate = useNavigate();
+  const [inputs, setInputs] = useState({
+    username: "",
+    title: "",
+    messageText: "",
+  });
+  const [error, setError] = useState(false);
 
+  function handleChange(name, value) {
+    setInputs((values) => ({ ...values, [name]: value }));
+  }
 
-   function handleChange(name, value) {
-      setInputs(values => ({ ...values, [name]: value }));
-   }
+  async function handleSubmit(event) {
+    event.preventDefault();
 
-   async function handleSubmit(event) {
-      event.preventDefault();
+    const messagePart = {
+      username: inputs.username,
+      title: inputs.title,
+      message: inputs.messageText,
+    };
 
-      const messagePart = {
-         username: inputs.username,
-         title: inputs.title,
-         message: inputs.messageText
-      };
+    await editMessage(messageId, messagePart);
+    goBack();
+  }
 
-      await editMessage(messageId, messagePart);
-      goBack();
-   }
+  function goBack() {
+    navigate("/");
+  }
 
-   function goBack() {
-      navigate("/");
-   }
-
-   useEffect(() => {
-      async function loadMessage() {
-         const message = await getMessage(messageId);
-         setInputs({ 
-            username: message.username,
-            title: message.title, 
-            messageText: message.message 
-         });
+  useEffect(() => {
+    async function loadMessage() {
+      const message = await getMessage(messageId);
+      if (message.error) {
+        setError(true);
+      } else {
+        setInputs({
+          username: message.username,
+          title: message.title,
+          messageText: message.message,
+        });
       }
+    }
 
-      loadMessage();
-   }, [messageId]);
+    loadMessage();
+  }, [messageId]);
 
-   return (
-      <Form onSubmit={handleSubmit}>
-         <Form.Group className="mb-3" controlId="username">
-            <Form.Label>Username</Form.Label>
-            <Form.Control type="text"
-               value={inputs.username}
-               onChange={(e) => handleChange("username", e.target.value)} />
-         </Form.Group>
+  return (
+    <>
+    {error ? <div className="d-flex justify-content-center"><h1 className="error-heading">There was an error loading the message you're trying to edit</h1></div> : <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="username">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            value={inputs.username}
+            onChange={(e) => handleChange("username", e.target.value)}
+          />
+        </Form.Group>
 
-         <Form.Group className="mb-3" controlId="title">
-            <Form.Label>Title</Form.Label>
-            <Form.Control type="text"
-               value={inputs.title}
-               onChange={(e) => handleChange("title", e.target.value)} />
-         </Form.Group>
+        <Form.Group className="mb-3" controlId="title">
+          <Form.Label>Title</Form.Label>
+          <Form.Control
+            type="text"
+            value={inputs.title}
+            onChange={(e) => handleChange("title", e.target.value)}
+          />
+        </Form.Group>
 
-         <Form.Group className="mb-3" controlId="messageText">
-            <Form.Label>Message</Form.Label>
-            <Form.Control as="textarea" rows={3}
-               value={inputs.messageText}
-               onChange={(e) => handleChange("messageText", e.target.value)} />
-         </Form.Group>
-         <Button variant="primary" type="submit" className="me-2">
-            Save
-         </Button>
-         <Button variant="secondary" type="button" onClick={goBack}>
-            Cancel
-         </Button>
-      </Form>
-   );
+        <Form.Group className="mb-3" controlId="messageText">
+          <Form.Label>Message</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            value={inputs.messageText}
+            onChange={(e) => handleChange("messageText", e.target.value)}
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit" className="me-2">
+          Save
+        </Button>
+        <Button variant="secondary" type="button" onClick={goBack}>
+          Cancel
+        </Button>
+      </Form>}
+      
+    </>
+  );
 }
 
 export default EditMessage;
