@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div className={`${theme}-mode`}>
-      <Container className="">
+      <Container>
         <Header />
         <Routes>
           <Route path="/" element={<MessageList />} />

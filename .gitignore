@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+agile-seeker-427200-n9-299c776af16a.json
+
+# Ignore environment file
+.env

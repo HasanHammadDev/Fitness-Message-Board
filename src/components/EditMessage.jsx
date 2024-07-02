@@ -62,54 +62,59 @@ function EditMessage() {
 
   return (
     <>
-    {isLoading ? (
+      {isLoading ? (
         <div className="d-flex justify-content-center align-items-center">
           <Spinner />
         </div>
-      ) : <> {error ? (
-        <div className="d-flex justify-content-center align-items-center">
-          <h1 className="error-heading">
-            There was an error loading the message you're trying to edit
-          </h1>
-          <Button onClick={() => setRetry(true)}>Retry</Button>
-        </div>
       ) : (
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="username">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              type="text"
-              value={inputs.username}
-              onChange={(e) => handleChange("username", e.target.value)}
-            />
-          </Form.Group>
+        <>
+          {" "}
+          {error ? (
+            <div className="d-flex justify-content-center align-items-center">
+              <h1 className="error-heading">
+                There was an error loading the message you're trying to edit.
+              </h1>
+              <Button onClick={() => setRetry(true)}>Retry</Button>
+            </div>
+          ) : (
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3" controlId="username">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={inputs.username}
+                  onChange={(e) => handleChange("username", e.target.value)}
+                />
+              </Form.Group>
 
-          <Form.Group className="mb-3" controlId="title">
-            <Form.Label>Title</Form.Label>
-            <Form.Control
-              type="text"
-              value={inputs.title}
-              onChange={(e) => handleChange("title", e.target.value)}
-            />
-          </Form.Group>
+              <Form.Group className="mb-3" controlId="title">
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={inputs.title}
+                  onChange={(e) => handleChange("title", e.target.value)}
+                />
+              </Form.Group>
 
-          <Form.Group className="mb-3" controlId="messageText">
-            <Form.Label>Message</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              value={inputs.messageText}
-              onChange={(e) => handleChange("messageText", e.target.value)}
-            />
-          </Form.Group>
-          <Button variant="primary" type="submit" className="me-2">
-            Save
-          </Button>
-          <Button variant="secondary" type="button" onClick={goBack}>
-            Cancel
-          </Button>
-        </Form>
-      )}</>}
+              <Form.Group className="mb-3" controlId="messageText">
+                <Form.Label>Message</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  value={inputs.messageText}
+                  onChange={(e) => handleChange("messageText", e.target.value)}
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit" className="me-2">
+                Save
+              </Button>
+              <Button variant="secondary" type="button" onClick={goBack}>
+                Cancel
+              </Button>
+            </Form>
+          )}
+        </>
+      )}
     </>
   );
 }

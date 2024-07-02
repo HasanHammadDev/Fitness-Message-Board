@@ -139,7 +139,7 @@ function AddMessage() {
             Cancel
           </Button>
         </div>
-        {error ? <h3 className="mt-1">{errorMsg}</h3> : <></>}
+        {error && <h4 className="mt-2">{errorMsg}</h4>}
       </Form>
     </div>
   );
