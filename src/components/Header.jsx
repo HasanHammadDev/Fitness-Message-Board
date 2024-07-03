@@ -21,7 +21,6 @@ function Header() {
         <Link to={addRoute} className='add-button m-2'>
           Create Post
         </Link>
-        {/* <button className="toggle-theme-button" onClick={toggleTheme}>Darkmode</button> */}
       </div>
     );
   }
